@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Please Open Chrome Dev Tool to see the content</h1>
+    <script>
+        var lineCount = 40;
+        var line = []
+        for (let i = 0; i <= lineCount; i++) {
+            line.push('➖');      
+        }
+        var playerPosition = 20;
+        var enemyPosition = [
+            [], [], [], [], [], [], [], [], [], [], [], [],
+        ];
+        var speed = 1;
+        var isOver = false;
+        var enemiesGenerator;
+        
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log("Aw, Mini game time. please resize the log window to fit this");
+        console.log("make the website focused, press 'SPACE' to start, use 'A' or 'D' to move ");
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+        console.log(line.join(''));
+
+        document.onkeypress = function (e) {
+                e = e || window.event;
+                if (e.key == ' ') {
+                    gameStart();
+                }
+            };
+
+        function gameStart(){
+            generateEnemies();
+            movePlayer();
+            var scene = setInterval(function () {
+                if (!isOver) {
+                    console.log('-----------------------------------------------------------------------------------------')
+                    console.log(displayEnemy(11));
+                    console.log(displayEnemy(10));
+                    console.log(displayEnemy(9));
+                    console.log(displayEnemy(8));
+                    console.log(displayEnemy(7));
+                    console.log(displayEnemy(6));
+                    console.log(displayEnemy(5));
+                    console.log(displayEnemy(4));
+                    console.log(displayEnemy(3));
+                    console.log(displayEnemy(2));
+                    console.log(displayEnemy(1));
+                    console.log(displayEnemy(0));
+                    console.log(displayPlayer())
+                } else {
+                    console.log('Game Over, Refresh the page to restart')
+                    myStopFunction(scene);
+                    myStopFunction(enemiesGenerator);
+                }
+            }, 100);
+        }
+
+        function myStopFunction(type) {
+            clearInterval(type);
+        }
+
+        function generateEnemies(){
+
+            enemiesGenerator = setInterval(function () {
+                let enemy1 = Math.floor(Math.random() * Math.floor(40));
+                let enemy2 = Math.floor(Math.random() * Math.floor(40));
+                let enemy3 = Math.floor(Math.random() * Math.floor(40));
+                let newEnemies = [enemy1, enemy2, enemy3];
+                enemyPosition.push(newEnemies);
+                if (enemyPosition.length >= 13) {
+                    let position = enemyPosition.shift()
+                    if (position.includes(playerPosition)) {
+                        isOver = true;
+                    }
+                }
+            }, 500);
+
+        }
+
+        
+
+        function movePlayer(){
+            document.onkeypress = function (e) {
+                e = e || window.event;
+                if (e.key == 'a' && playerPosition - speed >= 0) {
+                    playerPosition -= speed
+                } else if (e.key == "d" && playerPosition + speed <= 40) {
+                    playerPosition += speed
+                }
+            };
+        }
+
+        function displayPlayer() {
+            let draw = '';
+            line.forEach((element,index) => {
+                if (index == playerPosition) {
+                    draw += '😯'
+                }else{
+                    draw += '➖'
+                }
+            });
+            return draw;
+        }
+
+        function displayEnemy(li) {
+            let draw = '';
+            line.forEach((element, index) => {
+                if (index == enemyPosition[li][0]) {
+                    draw += '🏀'
+                }else if (index == enemyPosition[li][1]) {
+                    draw += '🏀'
+                } else if (index == enemyPosition[li][2]) {
+                    draw += '🏀'
+                }else {
+                    draw += '➖'
+                }
+
+            });
+            return draw;
+        }
+    </script>
+</body>
+</html>
